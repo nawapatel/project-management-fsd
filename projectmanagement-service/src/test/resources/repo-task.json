@@ -1,0 +1,28 @@
+{
+	"taskId": 1,
+	"taskName": "generate report of tasks",
+	"startDate": "07/10/2018",
+	"endDate": "10/10/2018",
+	"priority": "15",
+	"status": "A",
+	"parentTask": {
+		"parentTaskId": 1,
+		"parentTaskName": "pt create screens",
+		"projectId": "1"
+	},
+	"employeeDetails": {
+		"employeeId": "474325",
+		"firstName": "Vengatesh",
+		"lastName": "Nanjappan",
+		"status": "A"
+	},
+	"projectDetails": {
+		"projectId": 1,
+		"projectName": "SGFO",
+		"startDate": "11/20/2018",
+		"endDate": "11/30/2018",
+		"priority": "15",
+		"status": "In-Progress",
+		"managerId": "397538"
+	}
+}

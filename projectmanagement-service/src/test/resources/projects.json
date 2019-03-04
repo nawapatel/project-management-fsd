@@ -1,0 +1,82 @@
+[
+    {
+        "projectId": 1,
+        "projectName": "SGFO",
+        "startDate": "11/20/2018",
+        "endDate": "11/30/2018",
+        "priority": "15",
+        "status": "In-Progress",
+        "managerId": "397538",
+        "noOfTasks": 2
+    },
+    {
+        "projectId": 2,
+        "projectName": "MAC Appointment",
+        "startDate": "11/21/2018",
+        "endDate": "11/29/2018",
+        "priority": "17",
+        "status": "In-Progress",
+        "managerId": "287431",
+        "noOfTasks": 2
+    },
+    {
+        "projectId": 3,
+        "projectName": "MWP",
+        "startDate": "11/19/2018",
+        "endDate": "11/29/2018",
+        "priority": "20",
+        "status": "In-Progress",
+        "managerId": "463657",
+        "noOfTasks": 3
+    },
+    {
+        "projectId": 4,
+        "projectName": "2FA",
+        "startDate": "11/22/2018",
+        "endDate": "11/27/2018",
+        "priority": "1",
+        "status": "In-Progress",
+        "managerId": "313255",
+        "noOfTasks": 1
+    },
+    {
+        "projectId": 5,
+        "projectName": "Batch",
+        "startDate": "11/23/2018",
+        "endDate": "11/25/2018",
+        "priority": "9",
+        "status": "In-Progress",
+        "managerId": "456206",
+        "noOfTasks": 2
+    },
+    {
+        "projectId": 6,
+        "projectName": "test project edited",
+        "startDate": "12/12/2018",
+        "endDate": "12/19/2018",
+        "priority": "23",
+        "status": "In-Progress",
+        "managerId": "313255",
+        "noOfTasks": 0
+    },
+    {
+        "projectId": 7,
+        "projectName": "test project add 2",
+        "startDate": "11/19/2018",
+        "endDate": "11/20/2018",
+        "priority": "2",
+        "status": "Completed",
+        "managerId": "463657",
+        "noOfTasks": 0
+    },
+    {
+        "projectId": 8,
+        "projectName": "payment modernization",
+        "startDate": "",
+        "endDate": "",
+        "priority": "7",
+        "status": "In-Progress",
+        "managerId": "463657",
+        "noOfTasks": 0
+    }
+]

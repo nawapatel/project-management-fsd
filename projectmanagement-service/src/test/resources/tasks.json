@@ -1,0 +1,280 @@
+[
+    {
+        "taskId": 1,
+        "taskName": "generate report of tasks",
+        "startDate": "07/10/2018",
+        "endDate": "10/10/2018",
+        "priority": "15",
+        "status": "A",
+        "parentTask": {
+            "parentTaskId": 1,
+            "parentTaskName": "pt create screens",
+            "projectId": "1"
+        },
+        "employeeDetails": {
+            "employeeId": "474325",
+            "firstName": "Vengatesh",
+            "lastName": "Nanjappan",
+            "status": "A"
+        },
+        "projectDetails": {
+            "projectId": 1,
+            "projectName": "SGFO",
+            "startDate": "11/20/2018",
+            "endDate": "11/30/2018",
+            "priority": "15",
+            "status": "In-Progress",
+            "managerId": "397538",
+            "noOfTasks": null
+        }
+    },
+    {
+        "taskId": 2,
+        "taskName": "complete the go perform",
+        "startDate": "10/10/2018",
+        "endDate": "12/10/2018",
+        "priority": "30",
+        "status": "A",
+        "parentTask": {
+            "parentTaskId": 2,
+            "parentTaskName": "pt design database scripts",
+            "projectId": "2"
+        },
+        "employeeDetails": {
+            "employeeId": "456206",
+            "firstName": "Thangavel",
+            "lastName": "S",
+            "status": "A"
+        },
+        "projectDetails": {
+            "projectId": 2,
+            "projectName": "MAC Appointment",
+            "startDate": "11/21/2018",
+            "endDate": "11/29/2018",
+            "priority": "17",
+            "status": "In-Progress",
+            "managerId": "287431",
+            "noOfTasks": null
+        }
+    },
+    {
+        "taskId": 3,
+        "taskName": "sent artifacts email",
+        "startDate": "11/10/2018",
+        "endDate": "16/10/2018",
+        "priority": "1",
+        "status": "A",
+        "parentTask": {
+            "parentTaskId": 3,
+            "parentTaskName": "pt raise clarifications",
+            "projectId": "3"
+        },
+        "employeeDetails": {
+            "employeeId": "485083",
+            "firstName": "Gowthaman",
+            "lastName": "A",
+            "status": "A"
+        },
+        "projectDetails": {
+            "projectId": 3,
+            "projectName": "MWP",
+            "startDate": "11/19/2018",
+            "endDate": "11/29/2018",
+            "priority": "20",
+            "status": "In-Progress",
+            "managerId": "463657",
+            "noOfTasks": null
+        }
+    },
+    {
+        "taskId": 4,
+        "taskName": "complete coding of jira task assigned",
+        "startDate": "13/10/2018",
+        "endDate": "23/10/2018",
+        "priority": "0",
+        "status": "A",
+        "parentTask": null,
+        "employeeDetails": {
+            "employeeId": "287431",
+            "firstName": "Vignesh Suryah",
+            "lastName": "Mani",
+            "status": "A"
+        },
+        "projectDetails": {
+            "projectId": 4,
+            "projectName": "2FA",
+            "startDate": "11/22/2018",
+            "endDate": "11/27/2018",
+            "priority": "1",
+            "status": "In-Progress",
+            "managerId": "313255",
+            "noOfTasks": null
+        }
+    },
+    {
+        "taskId": 5,
+        "taskName": "perform unit testing",
+        "startDate": "09/10/2018",
+        "endDate": "19/10/2018",
+        "priority": "26",
+        "status": "A",
+        "parentTask": null,
+        "employeeDetails": {
+            "employeeId": "456206",
+            "firstName": "Thangavel",
+            "lastName": "S",
+            "status": "A"
+        },
+        "projectDetails": {
+            "projectId": 1,
+            "projectName": "SGFO",
+            "startDate": "11/20/2018",
+            "endDate": "11/30/2018",
+            "priority": "15",
+            "status": "In-Progress",
+            "managerId": "397538",
+            "noOfTasks": null
+        }
+    },
+    {
+        "taskId": 6,
+        "taskName": "fill the TDD document on the design change",
+        "startDate": "10/10/2018",
+        "endDate": "20/10/2018",
+        "priority": "17",
+        "status": "A",
+        "parentTask": {
+            "parentTaskId": 5,
+            "parentTaskName": "pt setup docker",
+            "projectId": "5"
+        },
+        "employeeDetails": {
+            "employeeId": "397538",
+            "firstName": "Sujana",
+            "lastName": "Daniel Christopher",
+            "status": "A"
+        },
+        "projectDetails": {
+            "projectId": 5,
+            "projectName": "Batch",
+            "startDate": "11/23/2018",
+            "endDate": "11/25/2018",
+            "priority": "9",
+            "status": "In-Progress",
+            "managerId": "456206",
+            "noOfTasks": null
+        }
+    },
+    {
+        "taskId": 7,
+        "taskName": "create db design",
+        "startDate": "15/10/2018",
+        "endDate": "19/10/2018",
+        "priority": "15",
+        "status": "A",
+        "parentTask": {
+            "parentTaskId": 4,
+            "parentTaskName": "pt design swagger",
+            "projectId": "4"
+        },
+        "employeeDetails": {
+            "employeeId": "463657",
+            "firstName": "Madhan Kumar",
+            "lastName": "Somasundaram",
+            "status": "A"
+        },
+        "projectDetails": {
+            "projectId": 2,
+            "projectName": "MAC Appointment",
+            "startDate": "11/21/2018",
+            "endDate": "11/29/2018",
+            "priority": "17",
+            "status": "In-Progress",
+            "managerId": "287431",
+            "noOfTasks": null
+        }
+    },
+    {
+        "taskId": 8,
+        "taskName": "create angular project structure",
+        "startDate": "16/10/2018",
+        "endDate": "21/10/2018",
+        "priority": "16",
+        "status": "A",
+        "parentTask": {
+            "parentTaskId": 1,
+            "parentTaskName": "pt create screens",
+            "projectId": "1"
+        },
+        "employeeDetails": {
+            "employeeId": "287431",
+            "firstName": "Vignesh Suryah",
+            "lastName": "Mani",
+            "status": "A"
+        },
+        "projectDetails": {
+            "projectId": 5,
+            "projectName": "Batch",
+            "startDate": "11/23/2018",
+            "endDate": "11/25/2018",
+            "priority": "9",
+            "status": "In-Progress",
+            "managerId": "456206",
+            "noOfTasks": null
+        }
+    },
+    {
+        "taskId": 9,
+        "taskName": "perform code review",
+        "startDate": "17/10/2018",
+        "endDate": "26/10/2018",
+        "priority": "19",
+        "status": "A",
+        "parentTask": {
+            "parentTaskId": 2,
+            "parentTaskName": "pt design database scripts",
+            "projectId": "2"
+        },
+        "employeeDetails": {
+            "employeeId": "397538",
+            "firstName": "Sujana",
+            "lastName": "Daniel Christopher",
+            "status": "A"
+        },
+        "projectDetails": {
+            "projectId": 3,
+            "projectName": "MWP",
+            "startDate": "11/19/2018",
+            "endDate": "11/29/2018",
+            "priority": "20",
+            "status": "In-Progress",
+            "managerId": "463657",
+            "noOfTasks": null
+        }
+    },
+    {
+        "taskId": 10,
+        "taskName": "help peer resource on angular",
+        "startDate": "20/10/2018",
+        "endDate": "24/10/2018",
+        "priority": "1",
+        "status": "A",
+        "parentTask": null,
+        "employeeDetails": {
+            "employeeId": "463657",
+            "firstName": "Madhan Kumar",
+            "lastName": "Somasundaram",
+            "status": "A"
+        },
+        "projectDetails": {
+            "projectId": 3,
+            "projectName": "MWP",
+            "startDate": "11/19/2018",
+            "endDate": "11/29/2018",
+            "priority": "20",
+            "status": "In-Progress",
+            "managerId": "463657",
+            "noOfTasks": null
+        }
+    }
+]

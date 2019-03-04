@@ -1,0 +1,20 @@
+[
+    {
+        "projectId": 1,
+        "projectName": "SGFO",
+        "startDate": "11/20/2018",
+        "endDate": "11/30/2018",
+        "priority": "15",
+        "status": "In-Progress",
+        "managerId": "397538"
+    },
+    {
+        "projectId": 2,
+        "projectName": "MAC Appointment",
+        "startDate": "11/21/2018",
+        "endDate": "11/29/2018",
+        "priority": "17",
+        "status": "In-Progress",
+        "managerId": "287431"
+    }
+]

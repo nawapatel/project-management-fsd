@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	
+	<mapping>
+		<class-a>com.project.management.fsd.entity.ParentTask</class-a>
+		<class-b>com.project.management.fsd.bo.ParentTaskVO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.project.management.fsd.entity.User</class-a>
+		<class-b>com.project.management.fsd.bo.UserVO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.project.management.fsd.entity.Task</class-a>
+		<class-b>com.project.management.fsd.bo.TaskVO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.project.management.fsd.entity.Project</class-a>
+		<class-b>com.project.management.fsd.bo.ProjectVO</class-b>
+	</mapping>
+	
+</mappings>
