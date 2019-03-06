@@ -12,7 +12,8 @@
 	  <relativePath />
   </parent>
   <modules>
-   <module>projectmanagement-service</module>
+      	<module>projectmanagement-gui</module>
+   		<module>projectmanagement-service</module>
   </modules>
   
   <dependencies>
@@ -24,6 +25,10 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
+   <!--  <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency> -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-tomcat</artifactId>

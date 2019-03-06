@@ -1,0 +1,141 @@
+<div class="row my-3 p-3 bg-white rounded box-shadow routerBorder">
+    <div class="col-xs-12 col-sm-2 col-md-2"></div>
+    <div class="col-xs-12 col-sm-8 col-md-8">
+            <form #updateUserForm="ngForm" method="post" (ngSubmit)="updateUser(user)" novalidate >
+                <div class="form-group row">
+                    <label for="projectName" class="col-sm-2 col-form-label">First Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="firstName" maxlength="50" required name="firstName" #firstName="ngModel" [(ngModel)]="user.firstName" placeholder="Enter the First Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="projectName" class="col-sm-2 col-form-label">Last Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="lastName" maxlength="50" required name="lastName" #lastName="ngModel" [(ngModel)]="user.lastName" placeholder="Enter the Last Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="projectName" class="col-sm-2 col-form-label">Employee ID</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="employeeId" maxlength="6" [readonly]="flow === 'updateuser'" required name="employeeId" #employeeId="ngModel" [(ngModel)]="user.employeeId" placeholder="Enter the Employee ID">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2 col-form-label"></div>
+                    <div class="col-sm-10 row">
+                            <div aria-live="assertive" class="mx-3">
+                                <div class="alert alert-danger" [hidden]="!errorShow" role="alert">
+                                    {{errorMessage}}
+                                </div>
+                            </div>
+                        <div class="input-group">
+                            <div *ngIf="flow === 'adduser'">
+                                <button type="submit" class="btn btn-success mx-3" [disabled]="(user.firstName === '' || user.lastName === '' || user.employeeId === '')">Add User</button>
+                                <button type="button" class="btn btn-warning mx-5" (click)=resetButton()>Reset</button>
+                            </div>
+                            <div *ngIf="flow === 'updateuser'">
+                                <button type="submit" class="btn btn-success mx-3" [disabled]="(user.firstName === '' || user.lastName === '' || user.employeeId === '')">Update User</button>
+                                <button type="button" class="btn btn-warning mx-5" (click)=resetButton()>Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form> 
+
+            <hr/>
+            <form #viewUsersForm="ngForm" novalidate >
+                <div class="form-group row">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" id="searchUser" name="searchUser" #searchProject="ngModel" [(ngModel)]="searchUserString" placeholder="Search User">
+                    </div>
+                </div> 
+                <div class="form-group row">
+                    <div class="col-sm-2">
+                        <label class="col-form-label">Sort By:</label>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-secondary" (click)=sortByFirstName()>First Name</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-secondary" (click)=sortByLastName()>Last Name</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-secondary" (click)=sortByEmployeeId()>Employee ID</button>
+                    </div>
+                    <div class="col-sm-2">
+
+                    </div>
+                    <div class="col-sm-2">
+    
+                    </div>
+                </div>
+                <div class="list-group">
+                    <div class="row list-group" *ngFor="let item of allUsersList | userSearchPipe : searchUserString">
+                    <div *ngIf="item.status === 'A'">
+                        <div class="col-lg-9 col-md-12 col-sm-12 grey-back-drop-list">
+                            <span class="clear font-italic bold-font">Employee Id: {{item.employeeId}}</span><br/><br/>
+                            <span class="clear font-italic">First Name: {{item.firstName}}</span><br/>
+                            <span class="clear font-italic">Last Name: {{item.lastName}}</span><br/>
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 grey-back-drop-list">
+                                
+                                    <button type="button" class="btn btn-info my-2" (click)=editUser(item)>Edit User</button>
+                                    <button type="button" class="btn btn-danger my-2" (click)=deleteUser(item)>Delete User</button>
+                                </div>
+                        </div>
+                      
+                    </div>
+                </div>
+            </form>
+
+
+    </div>
+    <div class="col-xs-12 col-sm-2 col-md-2"></div>
+</div>
+<button type="button" id="submitModalOpener" class="btn btn-primary" [hidden]="true" data-toggle="modal" data-target="#submitModal">
+</button>
+
+<!-- The Modal -->
+<div class="modal fade" role="dialog" id="submitModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">{{modalHeading}}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          {{modalBody}}
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            
+        <div *ngIf= "modalHeading==='Success'">
+                        
+          <button type="button" class="btn btn-success" data-dismiss="modal" (click)=resetButton()>Back To Add User</button>
+          </div>
+          <div *ngIf= "modalHeading==='Error'">
+                
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)=resetButton()>Back To Add User</button>
+        </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div [hidden]="!screenLoader" class="text-align-center"> 
+	<div class="modal-backdropP"></div>
+	<div class="modalP">
+		<div id="fountainG">
+			<div id="fountainG_1" class="fountainG"></div>
+			<div id="fountainG_2" class="fountainG"></div>
+			<div id="fountainG_3" class="fountainG"></div>
+			<div id="fountainG_4" class="fountainG"></div>
+			<div id="fountainG_5" class="fountainG"></div>
+			<div id="fountainG_6" class="fountainG"></div>
+			<div id="fountainG_7" class="fountainG"></div>
+			<div id="fountainG_8" class="fountainG"></div>
+		</div>
+	</div>
+</div>

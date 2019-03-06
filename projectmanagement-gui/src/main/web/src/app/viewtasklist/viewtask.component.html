@@ -1,0 +1,134 @@
+<form #viewTaskForm="ngForm" novalidate >
+<div class="row my-3 p-3 bg-white rounded box-shadow routerBorder">
+        <br/><br/>    
+        <div class="form-group row col-xs-12 col-sm-12 col-md-12">
+            <label for="projectName" class="col-sm-2 col-form-label">Project</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="projectName" readonly name="projectName" #projectName="ngModel" [(ngModel)]="project.projectName" placeholder="Select Project">
+            </div>
+            <button type="button" class="col-sm-2 btn btn-info" (click)=searchProjectPopup()>Search</button>
+        </div>
+        <br/>  
+        <div class="form-group row col-xs-12 col-sm-12 col-md-12">
+            <div class="col-sm-2">
+                <label class="col-form-label">Sort By:</label>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-secondary" (click)=sortByStartDate()>Start Date</button>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-secondary" (click)=sortByEndDate()>End Date</button>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-secondary" (click)=sortByPriority()>Priority</button>
+            </div>
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-secondary" (click)=sortByStatus()>Status</button>
+            </div>
+            <div class="col-sm-3">
+                
+            </div>
+        </div>
+        <div class="row col-xs-12 col-sm-12 col-md-12">
+                <table class="table table-bordered mx-2 my-4">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Task</th>
+                            <th scope="col">Parent</th>
+                            <th scope="col">Priority</th>
+                            <th scope="col">Start Date</th>
+                            <th scope="col">End Date</th>
+                            <th class="actionWidth" scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of alltaskList">
+                            <td>{{item.taskName}}</td>
+                            <td>{{getParentTaskName(item)}}</td>
+                            <td>{{item.priority}}</td>
+                            <td>{{item.startDate}}</td>
+                            <td>{{item.endDate}}</td>
+                            <td class="actionWidth">
+                                <div *ngIf="item.status === 'A'">
+                                    <button type="button" class="btn btn-info" (click)=editTask(item)>Edit Task</button>
+                                    <button type="button" class="btn btn-danger mx-2" (click)=endTask(item)>End Task</button>
+                                </div>
+                                <div *ngIf="item.status === 'C'">
+                                    <label class="col-sm-2 col-form-label">Completed</label>
+                                </div>
+                                
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div> 
+</div>
+
+
+<button type="button" id="endTaskModalOpener" class="btn btn-primary" [hidden]="true" data-toggle="modal" data-target="#endTaskModal">
+</button>
+
+<!-- The Modal -->
+<div class="modal fade" role="dialog" id="endTaskModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">{{modalHeading}}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          {{modalBody}}
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<button type="button" id="projectSelectOpener" class="btn btn-primary" [hidden]="true" data-toggle="modal" data-target="#projectSelect">
+</button>
+
+<!-- The Modal -->
+<div class="modal fade" role="dialog" id="projectSelect" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Select Project for the filtering its Tasks</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <input id="projectSelectId" type="text" class="form-control" name="projectSelectId" [ngbTypeahead]="projectSearchAhead" [(ngModel)]="project.projectNameEntered"
+            (focus)="focus$.next($event.target.value)" (click)="click$.next($event.target.value)" [resultFormatter]="formatter" 
+                (selectItem)="selectedProjectItem($event)" (keydown)=clearProjectItem($event) #instance="ngbTypeahead" placeholder="Select a Project"/>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-dismiss="modal">Okay</button>
+        </div>
+        </div>
+    </div>
+</div>
+</form>
+
+<div [hidden]="!screenLoader" class="text-align-center"> 
+	<div class="modal-backdropP"></div>
+	<div class="modalP">
+		<div id="fountainG">
+			<div id="fountainG_1" class="fountainG"></div>
+			<div id="fountainG_2" class="fountainG"></div>
+			<div id="fountainG_3" class="fountainG"></div>
+			<div id="fountainG_4" class="fountainG"></div>
+			<div id="fountainG_5" class="fountainG"></div>
+			<div id="fountainG_6" class="fountainG"></div>
+			<div id="fountainG_7" class="fountainG"></div>
+			<div id="fountainG_8" class="fountainG"></div>
+		</div>
+	</div>
+</div>

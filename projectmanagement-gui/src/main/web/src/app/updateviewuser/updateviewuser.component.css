@@ -1,0 +1,19 @@
+
+.project-date-selection{
+    margin-left:20px;
+}
+.margin-top-date-table{
+    margin-top:20px;
+}
+.grey-back-drop-list{
+    background-color: #e9ecef;
+    float:left;
+    min-height:120px; 
+    width:70%;
+    margin:5px;
+    padding-top:5px;
+    padding-bottom:5px;
+}
+.bold-font{
+    font-weight:500;
+}

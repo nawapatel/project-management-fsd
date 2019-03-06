@@ -1,0 +1,233 @@
+<form #updateTaskForm="ngForm" method="post" (ngSubmit)="updateTask(task)" novalidate >
+<div class="row my-3 p-3 bg-white rounded box-shadow routerBorder">
+    <div class="col-xs-12 col-sm-2 col-md-2"></div>
+    <div class="col-xs-12 col-sm-8 col-md-8">
+                <div class="form-group row">
+                    <label for="projectName" class="col-sm-2 col-form-label">Project</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="projectName" readonly name="projectName" #projectName="ngModel" [(ngModel)]="task.projectName" placeholder="Select Project">
+                        <input type="hidden" class="form-control" id="projectId" name="projectId" #projectId="ngModel" [(ngModel)]="task.projectId">
+                    </div>
+                    <button type="button" class="col-sm-2 btn btn-info" (click)=searchProjectPopup()>Search</button>
+                </div>
+                <div class="form-group row">
+                    <label for="taskName" class="col-sm-2 col-form-label">Task Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="taskName" maxlength="50" required name="taskName" #taskName="ngModel" [(ngModel)]="task.taskName" placeholder="Enter the Task Name">
+                    </div>
+                </div>
+                <div class="form-group row" [hidden]="flow === 'updatetask'">
+                    <label for="projectName" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                            <label class="switch">
+                                <input type="checkbox" id="isParentTaskSelection" tabindex="0" name="isParentTaskSelection" [(ngModel)]="isParentTaskSelection">
+                                <span class="checkboxslider round"></span>
+                            </label>
+                            <label for="isParentTaskSelection" class="col-form-label parent-task-selection">Parent Task</label>
+                    </div>
+                </div>
+                <div class="form-group row" [hidden]="isParentTaskSelection">
+                    <label for="priority" class="col-sm-2 col-form-label">Priority</label>
+                    <div class="col-sm-9">
+                        <div class="pt-2">
+                                <input type="range" min="1" max="30" name="priority" #priority="ngModel" [(ngModel)]="task.priority" class="slider" id="priority">
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="pt-2">
+                            {{task.priority}}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row" [hidden]="isParentTaskSelection">
+                    <label for="parentTaskName" class="col-sm-2 col-form-label">Parent Task</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="parentTaskName" readonly name="parentTaskName" #parentTaskName="ngModel" [(ngModel)]="task.parentTaskName" placeholder="Select Parent Task">
+                        <input type="hidden" class="form-control" id="parentTaskId" name="parentTaskId" #parentTaskId="ngModel" [(ngModel)]="task.parentTaskId">
+                    </div>
+                    <button type="button" class="col-sm-2 btn btn-info" [disabled]="task.projectId === ''" (click)=searchParentTaskPopup()>Search</button>
+                </div>
+                <div class="form-group row" [hidden]="isParentTaskSelection">
+                    <label for="startDate" class="col-sm-2 col-form-label">Start & End Date</label>
+                    <div class="col-sm-10">
+                        <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+                        </ngb-datepicker>
+                        <ng-template #t let-date let-focused="focused">
+                          <span class="custom-day"
+                                [class.focused]="focused"
+                                [class.range]="isRange(date)"
+                                [class.faded]="isHovered(date) || isInside(date)"
+                                (mouseenter)="hoveredDate = date"
+                                (mouseleave)="hoveredDate = null">
+                            {{ date.day }}
+                          </span>
+                        </ng-template>
+                        <hr/>
+                        Start Date: <span class="text-primary">{{convertDateJsonToString(fromDate)}}</span><br/>
+                        End Date: <span class="text-primary">{{convertDateJsonToString(toDate)}}</span>
+                    </div>
+                </div>
+                <div class="form-group row" [hidden]="isParentTaskSelection">
+                    <label for="userName" class="col-sm-2 col-form-label">User</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="userName" readonly name="userName" #userName="ngModel" [(ngModel)]="task.userName" placeholder="Select User">
+                        <input type="hidden" class="form-control" id="userId" name="userId" #userId="ngModel" [(ngModel)]="task.userId">
+                    </div>
+                    <button type="button" class="col-sm-2 btn btn-info" (click)=searchUserPopup()>Search</button>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-2 col-form-label"></div>
+                    <div class="col-sm-10 row">
+                            <div aria-live="assertive" class="mx-3">
+                                <div class="alert alert-danger" [hidden]="!errorShow" role="alert">
+                                    {{errorMessage}}
+                                </div>
+                            </div>
+                        <div class="input-group">
+                            <div *ngIf="flow === 'addtask'">
+                                    <button type="submit" class="btn btn-success mx-3" *ngIf="isParentTaskSelection" [disabled]="(task.taskName === '' || task.projectId === '')">Add Task</button>
+                                    <button type="submit" class="btn btn-success mx-3" *ngIf="!isParentTaskSelection" [disabled]="(task.taskName === '' || task.projectId === '' || task.userId === '' ||
+                                    fromDate === null || toDate === null)">Add Task</button>
+                                    <button type="button" class="btn btn-warning mx-5" (click)=resetButton()>Reset</button>
+                            </div>
+                            <div *ngIf="flow === 'updatetask'">
+                                    <button type="submit" class="btn btn-success mx-3" [disabled]="(task.taskName === '' || task.projectId === '' || task.userId === '' ||
+                                    fromDate === null || toDate === null)">Update</button>
+                                    <button type="button" class="btn btn-warning mx-5" (click)=resetButton()>Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+    </div>
+    <div class="col-xs-12 col-sm-2 col-md-2"></div>
+</div>
+<button type="button" id="submitModalOpener" class="btn btn-primary" [hidden]="true" data-toggle="modal" data-target="#submitModal">
+</button>
+
+<!-- The Modal -->
+<div class="modal fade" role="dialog" id="submitModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">{{modalHeading}}</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+          {{modalBody}}
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal" (click)=resetButton()>Okay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<button type="button" id="projectSelectOpener" class="btn btn-primary" [hidden]="true" data-toggle="modal" data-target="#projectSelect">
+</button>
+
+<!-- The Modal -->
+<div class="modal fade" role="dialog" id="projectSelect" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Select Project</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <input id="projectSelectId" type="text" class="form-control" name="projectSelectId" [ngbTypeahead]="projectSearchAhead" [(ngModel)]="task.projectNameEntered"
+            (focus)="focusProject$.next($event.target.value)" (click)="clickProject$.next($event.target.value)" [resultFormatter]="formatterProjectName" 
+                (selectItem)="selectedProjectItem($event)" (keydown)=clearProjectItem($event) #instanceProject="ngbTypeahead" placeholder="Select a Project"/>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <div *ngIf= "modalHeading">
+            <div *ngIf= "modalHeading==='Success'">
+            <button type="button" class="btn btn-success" data-dismiss="modal">Okay</button>
+            </div>
+            
+            <div *ngIf= "modalHeading==='Error'">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Okay</button>
+                    </div>
+            </div>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Okay</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" id="parentTaskSelectOpener" class="btn btn-primary" [hidden]="true" data-toggle="modal" data-target="#parentTaskSelect">
+</button>
+    
+    <!-- The Modal -->
+<div class="modal fade" role="dialog" id="parentTaskSelect" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Select Parent Task</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <input id="parentTaskSelectId" type="text" *ngIf="allParentTaskList.length > 0" class="form-control" name="parentTaskSelectId" [ngbTypeahead]="parentTaskSearchAhead" [(ngModel)]="task.parentTaskNameEntered"
+            (focus)="focusParentTask$.next($event.target.value)" (click)="clickParentTask$.next($event.target.value)" [resultFormatter]="formatterParentTaskName" 
+                (selectItem)="selectedParentTaskItem($event)" (keydown)=clearParentTaskItem($event) #instanceParentTask="ngbTypeahead" placeholder="Select a Parent Task"/>
+            <span *ngIf="allParentTaskList.length == 0">No Parent Task available for the project selected.</span>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-dismiss="modal">Okay</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" id="userSelectOpener" class="btn btn-primary" [hidden]="true" data-toggle="modal" data-target="#userSelect">
+</button>
+
+<!-- The Modal -->
+<div class="modal fade" role="dialog" id="userSelect" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Select User</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <input id="userSelectId" type="text" class="form-control" name="userSelectId" [ngbTypeahead]="userEmployeeSearch" [(ngModel)]="task.selectedUserName"
+            (focus)="focusUser$.next($event.target.value)" (click)="clickUser$.next($event.target.value)" [resultFormatter]="formatterUserSelect" 
+                (selectItem)="selectedUserItem($event)" (keydown)=clearUserItem($event) #instanceUser="ngbTypeahead" placeholder="Select a User"/>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-dismiss="modal">Okay</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+</form> 
+<div [hidden]="!screenLoader" class="text-align-center"> 
+	<div class="modal-backdropP"></div>
+	<div class="modalP">
+		<div id="fountainG">
+			<div id="fountainG_1" class="fountainG"></div>
+			<div id="fountainG_2" class="fountainG"></div>
+			<div id="fountainG_3" class="fountainG"></div>
+			<div id="fountainG_4" class="fountainG"></div>
+			<div id="fountainG_5" class="fountainG"></div>
+			<div id="fountainG_6" class="fountainG"></div>
+			<div id="fountainG_7" class="fountainG"></div>
+			<div id="fountainG_8" class="fountainG"></div>
+		</div>
+	</div>
+</div>
