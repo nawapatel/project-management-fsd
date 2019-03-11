@@ -1,0 +1,9 @@
+docker run -p 9081:9081 nawapatel/nawapatel-projectmanagement-application-image:latest
+
+docker exec -it <container id> sh
+
+Service: curl http://localhost:9081/api/tasks
+
+User Interface Home page: curl http://localhost:9081/index.html
+
+
