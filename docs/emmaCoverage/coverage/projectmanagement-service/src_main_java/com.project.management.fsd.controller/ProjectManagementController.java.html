@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ProjectManagementController.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">projectmanagement-service (7) (Mar 11, 2019 12:40:05 PM)</a> &gt; <a href="../../index.html" class="el_group">projectmanagement-service</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.project.management.fsd.controller</a> &gt; <span class="el_source">ProjectManagementController.java</span></div><h1>ProjectManagementController.java</h1><pre class="source lang-java linenums">package com.project.management.fsd.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.project.management.fsd.bo.ParentTaskVO;
+import com.project.management.fsd.bo.ProjectVO;
+import com.project.management.fsd.bo.TaskVO;
+import com.project.management.fsd.bo.UserVO;
+import com.project.management.fsd.service.ProjectManagementService;
+/**
+ * 
+ * @author Admin : Nawap Patel : nawap_patel@yahoo.com
+ *
+ */
+@CrossOrigin(origins = &quot;*&quot;, maxAge = 3600)
+@RestController
+public class ProjectManagementController {
+	
+	private ProjectManagementService projectManagerService;
+
+	@Autowired
+<span class="fc" id="L30">	public ProjectManagementController(ProjectManagementService projectManagerService) {</span>
+<span class="fc" id="L31">		this.projectManagerService = projectManagerService;</span>
+<span class="fc" id="L32">	}</span>
+
+	@GetMapping(&quot;/home&quot;)
+	public String home() {
+<span class="fc" id="L36">		return &quot;forward:/index.html&quot;;</span>
+	}
+	
+	
+	@GetMapping(&quot;/api/tasks&quot;)
+	public List&lt;TaskVO&gt; getTasks() {
+<span class="fc" id="L42">		List&lt;TaskVO&gt; tasks = projectManagerService.retriveTasks();</span>
+<span class="fc" id="L43">		return tasks;</span>
+	}
+	
+	@PostMapping(path = &quot;/api/tasks&quot;, consumes = &quot;application/json&quot;, produces = &quot;application/json&quot;)
+	public boolean updateTask(@RequestBody TaskVO task) {
+		try {
+<span class="fc" id="L49">			projectManagerService.updateTask(task); </span>
+<span class="pc" id="L50">		}catch(Exception e)</span>
+		{
+<span class="nc" id="L52">			return false;</span>
+		}
+<span class="fc" id="L54">		return true;</span>
+	}
+	
+	
+	@GetMapping(&quot;/api/parenttasks&quot;)
+	public List&lt;ParentTaskVO&gt; getAllParentTasks() {
+<span class="fc" id="L60">		List&lt;ParentTaskVO&gt; tasks = projectManagerService.retriveParentTasks();</span>
+<span class="fc" id="L61">		return tasks;</span>
+	}
+	
+	@GetMapping(&quot;/api/parenttasks/projects/{projectId}&quot;)
+	public List&lt;ParentTaskVO&gt; getParentTasksForProjectId(@PathVariable(name=&quot;projectId&quot;) String projectId) {
+<span class="fc" id="L66">		List&lt;ParentTaskVO&gt; tasks = projectManagerService.retriveParentTasksForProjectId(projectId); </span>
+<span class="fc" id="L67">		return tasks;</span>
+	}
+	
+	@PostMapping(path = &quot;/api/parenttasks&quot;, consumes = &quot;application/json&quot;, produces = &quot;application/json&quot;)
+	public boolean updateParentTask(@RequestBody ParentTaskVO parentTask) {
+		try {
+<span class="fc" id="L73">			projectManagerService.updateParentTask(parentTask);</span>
+<span class="pc" id="L74">		}catch(Exception e)</span>
+		{
+<span class="nc" id="L76">			return false;</span>
+		}
+<span class="fc" id="L78">		return true;</span>
+	}
+	
+	
+	@GetMapping(&quot;/api/projects&quot;)
+	public List&lt;ProjectVO&gt; getProjects() {
+<span class="fc" id="L84">		List&lt;ProjectVO&gt; projects = projectManagerService.retriveProjects();</span>
+<span class="fc" id="L85">		return projects;</span>
+	}
+	
+	@PostMapping(path = &quot;/api/projects&quot;, consumes = &quot;application/json&quot;, produces = &quot;application/json&quot;)
+	public boolean updateProject(@RequestBody ProjectVO project) {
+		try {
+<span class="fc" id="L91">			projectManagerService.updateProject(project);</span>
+<span class="pc" id="L92">		}catch(Exception e)</span>
+		{
+<span class="nc" id="L94">			return false;</span>
+		}
+<span class="fc" id="L96">		return true;</span>
+	}
+	
+	
+	@GetMapping(&quot;/api/users&quot;)
+	public List&lt;UserVO&gt; getUsers() {
+<span class="fc" id="L102">		List&lt;UserVO&gt; users = projectManagerService.retriveUsers();</span>
+<span class="fc" id="L103">		return users;</span>
+	}
+	
+	@PostMapping(path = &quot;/api/users&quot;, consumes = &quot;application/json&quot;, produces = &quot;application/json&quot;)
+	public boolean updateUsers(@RequestBody UserVO user) {
+		try {
+<span class="fc" id="L109">			projectManagerService.updateUser(user);</span>
+<span class="pc" id="L110">		}catch(Exception e)</span>
+		{
+<span class="nc" id="L112">			return false;</span>
+		}
+<span class="fc" id="L114">		return true;</span>
+	}
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>projectmanagement-service (7) (Mar 11, 2019 12:40:05 PM)</div></body></html>

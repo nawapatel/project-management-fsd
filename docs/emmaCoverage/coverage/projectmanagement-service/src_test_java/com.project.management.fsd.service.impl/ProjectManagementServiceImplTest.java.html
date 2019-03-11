@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ProjectManagementServiceImplTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">projectmanagement-service (7) (Mar 11, 2019 12:40:05 PM)</a> &gt; <a href="../../index.html" class="el_group">projectmanagement-service</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.project.management.fsd.service.impl</a> &gt; <span class="el_source">ProjectManagementServiceImplTest.java</span></div><h1>ProjectManagementServiceImplTest.java</h1><pre class="source lang-java linenums">package com.project.management.fsd.service.impl;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import org.dozer.DozerBeanMapper;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.management.fsd.bo.ParentTaskVO;
+import com.project.management.fsd.bo.ProjectVO;
+import com.project.management.fsd.bo.TaskVO;
+import com.project.management.fsd.bo.UserVO;
+import com.project.management.fsd.entity.ParentTask;
+import com.project.management.fsd.entity.Project;
+import com.project.management.fsd.entity.Task;
+import com.project.management.fsd.entity.User;
+import com.project.management.fsd.repository.ParentTaskManagerRepository;
+import com.project.management.fsd.repository.ProjectManagerRepository;
+import com.project.management.fsd.repository.TaskManagerRepository;
+import com.project.management.fsd.repository.UserManagerRepository;
+import com.project.management.fsd.service.impl.ProjectManagementServiceImpl;
+
+@RunWith(SpringRunner.class)
+<span class="fc" id="L41">public class ProjectManagementServiceImplTest {</span>
+	
+	private ProjectManagerRepository projectManagerRepository;
+	private TaskManagerRepository taskManagerRepository;
+	private ParentTaskManagerRepository parentTaskManagerRepository;
+	private UserManagerRepository userManagerRepository;
+	
+	private ProjectManagementServiceImpl projectManagerServiceImpl;
+	@Spy
+    private DozerBeanMapper dozerMapper;
+	
+<span class="fc" id="L52">	ObjectMapper mapper = new ObjectMapper();</span>
+	
+	@Before
+	public void setUp() throws Exception {
+<span class="fc" id="L56">		projectManagerRepository = Mockito.mock(ProjectManagerRepository.class);</span>
+<span class="fc" id="L57">		taskManagerRepository = Mockito.mock(TaskManagerRepository.class);</span>
+<span class="fc" id="L58">		parentTaskManagerRepository = Mockito.mock(ParentTaskManagerRepository.class);</span>
+<span class="fc" id="L59">		userManagerRepository = Mockito.mock(UserManagerRepository.class);</span>
+<span class="fc" id="L60">		projectManagerServiceImpl = new ProjectManagementServiceImpl(projectManagerRepository, taskManagerRepository, parentTaskManagerRepository, userManagerRepository, dozerMapper);</span>
+<span class="fc" id="L61">	}</span>
+
+	@After
+	public void tearDown() throws Exception {
+		
+<span class="fc" id="L66">	}</span>
+	
+	@Test
+	public void testRetriveTasks() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L70">		TypeReference&lt;List&lt;Task&gt;&gt; mapType = new TypeReference&lt;List&lt;Task&gt;&gt;() {};</span>
+<span class="fc" id="L71">		List&lt;Task&gt; allTasks = null;</span>
+<span class="fc" id="L72">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L73">		File file = new File(classLoader.getResource(&quot;repo-tasks.json&quot;).getFile());</span>
+<span class="fc" id="L74">		allTasks = mapper.readValue(file, mapType);</span>
+<span class="fc" id="L75">		when(taskManagerRepository.findAll()).thenReturn(allTasks);</span>
+<span class="fc" id="L76">		List&lt;TaskVO&gt; taskDetails = projectManagerServiceImpl.retriveTasks();</span>
+<span class="fc" id="L77">		Assert.assertNotNull(taskDetails);</span>
+<span class="fc" id="L78">		verify(taskManagerRepository,times(1)).findAll();</span>
+<span class="fc" id="L79">		verifyNoMoreInteractions(taskManagerRepository);</span>
+<span class="fc" id="L80">	}</span>
+	
+	
+	@Test
+	public void testUpdateTask() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L85">		Task task = null;</span>
+<span class="fc" id="L86">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L87">		File file = new File(classLoader.getResource(&quot;repo-task.json&quot;).getFile());</span>
+<span class="fc" id="L88">		task = mapper.readValue(file, Task.class);</span>
+		
+<span class="fc" id="L90">		TaskVO taskVO = null;</span>
+<span class="fc" id="L91">		File fileTaskVO = new File(classLoader.getResource(&quot;task.json&quot;).getFile());</span>
+<span class="fc" id="L92">		taskVO = mapper.readValue(fileTaskVO, TaskVO.class);</span>
+<span class="fc" id="L93">		when(taskManagerRepository.save(task)).thenReturn(task);</span>
+<span class="fc" id="L94">		projectManagerServiceImpl.updateTask(taskVO);</span>
+<span class="fc" id="L95">	}</span>
+	
+	@Test
+	public void testRetriveParentTasks() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L99">		TypeReference&lt;List&lt;ParentTask&gt;&gt; mapType = new TypeReference&lt;List&lt;ParentTask&gt;&gt;() {};</span>
+<span class="fc" id="L100">		List&lt;ParentTask&gt; allParentTasks = null;</span>
+<span class="fc" id="L101">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L102">		File file = new File(classLoader.getResource(&quot;parenttasks.json&quot;).getFile());</span>
+<span class="fc" id="L103">		allParentTasks = mapper.readValue(file, mapType);</span>
+<span class="fc" id="L104">		when(parentTaskManagerRepository.findAll()).thenReturn(allParentTasks);</span>
+<span class="fc" id="L105">		List&lt;ParentTaskVO&gt; allParentTasksDetails = projectManagerServiceImpl.retriveParentTasks();</span>
+<span class="fc" id="L106">		Assert.assertNotNull(allParentTasksDetails);</span>
+<span class="fc" id="L107">		verify(parentTaskManagerRepository,times(1)).findAll();</span>
+<span class="fc" id="L108">		verifyNoMoreInteractions(parentTaskManagerRepository);</span>
+<span class="fc" id="L109">	}</span>
+	
+	@Test
+	public void testRetriveParentTasksForProjectId() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L113">		TypeReference&lt;List&lt;ParentTask&gt;&gt; mapType = new TypeReference&lt;List&lt;ParentTask&gt;&gt;() {};</span>
+<span class="fc" id="L114">		List&lt;ParentTask&gt; allParentTasks = null;</span>
+<span class="fc" id="L115">		String projectId = &quot;3&quot;;</span>
+		
+<span class="fc" id="L117">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L118">		File file = new File(classLoader.getResource(&quot;parenttasks.json&quot;).getFile());</span>
+<span class="fc" id="L119">		allParentTasks = mapper.readValue(file, mapType);</span>
+<span class="fc" id="L120">		when(parentTaskManagerRepository.findAllParentTaskByProjectId(projectId)).thenReturn(allParentTasks);</span>
+<span class="fc" id="L121">		List&lt;ParentTaskVO&gt; allParentTasksDetails = projectManagerServiceImpl.retriveParentTasksForProjectId(projectId);</span>
+<span class="fc" id="L122">		Assert.assertNotNull(allParentTasksDetails);</span>
+<span class="fc" id="L123">		verify(parentTaskManagerRepository,times(1)).findAllParentTaskByProjectId(projectId);</span>
+<span class="fc" id="L124">		verifyNoMoreInteractions(parentTaskManagerRepository);</span>
+<span class="fc" id="L125">	}</span>
+	
+	@Test
+	public void testUpdateParentTask() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L129">		ParentTask parent = null;</span>
+<span class="fc" id="L130">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L131">		File file = new File(classLoader.getResource(&quot;parenttask.json&quot;).getFile());</span>
+<span class="fc" id="L132">		parent = mapper.readValue(file, ParentTask.class);</span>
+		
+<span class="fc" id="L134">		ParentTaskVO parentTaskVO = null;</span>
+<span class="fc" id="L135">		File fileTaskVO = new File(classLoader.getResource(&quot;parenttask.json&quot;).getFile());</span>
+<span class="fc" id="L136">		parentTaskVO = mapper.readValue(fileTaskVO, ParentTaskVO.class);</span>
+<span class="fc" id="L137">		when(parentTaskManagerRepository.save(parent)).thenReturn(parent);</span>
+<span class="fc" id="L138">		projectManagerServiceImpl.updateParentTask(parentTaskVO);</span>
+<span class="fc" id="L139">	}</span>
+	
+	@Test
+	public void testRetriveProjects() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L143">		TypeReference&lt;List&lt;Project&gt;&gt; mapType = new TypeReference&lt;List&lt;Project&gt;&gt;() {};</span>
+<span class="fc" id="L144">		List&lt;Project&gt; allProjects = null;</span>
+<span class="fc" id="L145">		Long projectId = (long) 3;</span>
+<span class="fc" id="L146">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L147">		File file = new File(classLoader.getResource(&quot;repo-projects.json&quot;).getFile());</span>
+<span class="fc" id="L148">		allProjects = mapper.readValue(file, mapType);</span>
+<span class="fc" id="L149">		when(projectManagerRepository.findAll()).thenReturn(allProjects);</span>
+<span class="fc" id="L150">		when(taskManagerRepository.getTotalTasksForProjectId(projectId)).thenReturn(projectId);</span>
+<span class="fc" id="L151">		List&lt;ProjectVO&gt; allProjectDetails = projectManagerServiceImpl.retriveProjects();</span>
+<span class="fc" id="L152">		Assert.assertNotNull(allProjectDetails);</span>
+<span class="fc" id="L153">		verify(projectManagerRepository,times(1)).findAll();</span>
+<span class="fc" id="L154">		verifyNoMoreInteractions(projectManagerRepository);</span>
+<span class="fc" id="L155">	}</span>
+	
+	@Test
+	public void testUpdateProject() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L159">		Project project = null;</span>
+<span class="fc" id="L160">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L161">		File file = new File(classLoader.getResource(&quot;project.json&quot;).getFile());</span>
+<span class="fc" id="L162">		project = mapper.readValue(file, Project.class);</span>
+		
+<span class="fc" id="L164">		ProjectVO projectVO = null;</span>
+<span class="fc" id="L165">		File fileProjectVO = new File(classLoader.getResource(&quot;project.json&quot;).getFile());</span>
+<span class="fc" id="L166">		projectVO = mapper.readValue(fileProjectVO, ProjectVO.class);</span>
+<span class="fc" id="L167">		when(projectManagerRepository.save(project)).thenReturn(project);</span>
+<span class="fc" id="L168">		projectManagerServiceImpl.updateProject(projectVO);</span>
+<span class="fc" id="L169">	}</span>
+	
+	@Test
+	public void testRetriveUsers() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L173">		TypeReference&lt;List&lt;User&gt;&gt; mapType = new TypeReference&lt;List&lt;User&gt;&gt;() {};</span>
+<span class="fc" id="L174">		List&lt;User&gt; allUsers = null;</span>
+<span class="fc" id="L175">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L176">		File file = new File(classLoader.getResource(&quot;users.json&quot;).getFile());</span>
+<span class="fc" id="L177">		allUsers = mapper.readValue(file, mapType);</span>
+<span class="fc" id="L178">		when(userManagerRepository.findAll()).thenReturn(allUsers);</span>
+<span class="fc" id="L179">		List&lt;UserVO&gt; allUsersDetails = projectManagerServiceImpl.retriveUsers();</span>
+<span class="fc" id="L180">		Assert.assertNotNull(allUsersDetails);</span>
+<span class="fc" id="L181">		verify(userManagerRepository,times(1)).findAll();</span>
+<span class="fc" id="L182">		verifyNoMoreInteractions(userManagerRepository);</span>
+<span class="fc" id="L183">	}</span>
+	
+	@Test
+	public void testUpdateUser() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L187">		User user = null;</span>
+<span class="fc" id="L188">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L189">		File file = new File(classLoader.getResource(&quot;user.json&quot;).getFile());</span>
+<span class="fc" id="L190">		user = mapper.readValue(file, User.class);</span>
+		
+<span class="fc" id="L192">		UserVO userVO = null;</span>
+<span class="fc" id="L193">		File fileUserVO = new File(classLoader.getResource(&quot;user.json&quot;).getFile());</span>
+<span class="fc" id="L194">		userVO = mapper.readValue(fileUserVO, UserVO.class);</span>
+<span class="fc" id="L195">		when(userManagerRepository.save(user)).thenReturn(user);</span>
+<span class="fc" id="L196">		projectManagerServiceImpl.updateUser(userVO);</span>
+<span class="fc" id="L197">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>projectmanagement-service (7) (Mar 11, 2019 12:40:05 PM)</div></body></html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Application.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">projectmanagement-service (7) (Mar 11, 2019 12:40:05 PM)</a> &gt; <a href="../../index.html" class="el_group">projectmanagement-service</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">com.project.management.fsd</a> &gt; <span class="el_source">Application.java</span></div><h1>Application.java</h1><pre class="source lang-java linenums">package com.project.management.fsd;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.dozer.DozerBeanMapper;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+
+import com.project.management.fsd.filter.CORSFilter;
+
+
+/**
+ * 
+ * @author Admin : Nawap Patel - nawap_patel@yahoo.com
+ *
+ */
+
+@SpringBootApplication
+@ComponentScan(basePackages = &quot;com.project.management.fsd&quot;)
+<span class="nc" id="L25">public class Application extends SpringBootServletInitializer {</span>
+ 
+	
+	public static void main(String[] args) {
+<span class="nc" id="L29">		SpringApplication.run(Application.class, args);</span>
+<span class="nc" id="L30">	}</span>
+
+	@Bean
+	public FilterRegistrationBean&lt;CORSFilter&gt; corsFilter() {
+<span class="nc" id="L34">		FilterRegistrationBean&lt;CORSFilter&gt; registrationBean = new FilterRegistrationBean&lt;CORSFilter&gt;();</span>
+
+<span class="nc" id="L36">		registrationBean.setFilter(new CORSFilter());</span>
+<span class="nc" id="L37">		registrationBean.addUrlPatterns(&quot;/*&quot;);</span>
+
+<span class="nc" id="L39">		return registrationBean;</span>
+	}
+	
+	@Bean
+	public DozerBeanMapper dozerMapper() {
+<span class="nc" id="L44">		List&lt;String&gt; mappingFiles = Arrays.asList(&quot;mapper-dozer.xml&quot;);</span>
+<span class="nc" id="L45">		DozerBeanMapper dozerBean = new DozerBeanMapper();</span>
+<span class="nc" id="L46">		dozerBean.setMappingFiles(mappingFiles);</span>
+<span class="nc" id="L47">		return dozerBean;</span>
+	} 
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>projectmanagement-service (7) (Mar 11, 2019 12:40:05 PM)</div></body></html>
